@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  background-color: #fcefcb;
+}
+
+body {
+  font-family: var(--font-body), sans-serif;
+  color: #2a2117;
+}
+
+.btn-red {
+  @apply rounded-2xl bg-red font-display text-cream transition-transform hover:scale-[1.02] active:scale-[0.97];
+}
+
+.card-red {
+  @apply rounded-2xl bg-red text-cream transition-transform hover:scale-[1.03] active:scale-[0.97];
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
