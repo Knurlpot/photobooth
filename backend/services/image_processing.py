@@ -121,7 +121,16 @@ FRAME_W = 900             # width of each photo cell, before gaps
 OUTER_BORDER = 60         # thick frame around the photo area
 GAP = 12                  # separator between photos
 FOOTER_H = 180            # bottom footer band (brand + timestamp)
-FRAME_BG = (33, 28, 34)   # #211C22 — dark frame background
+STRIP_COLORS = {
+    "black": (0, 0, 0),
+    "white": (255, 255, 255),
+    "red": (229, 52, 42),
+    "orange": (242, 140, 40),
+    "yellow": (244, 208, 63),
+    "blue": (40, 120, 208),
+    "violet": (123, 63, 178),
+    "pink": (232, 106, 154),
+}
 RED = (229, 52, 42)       # #E5342A — brand red
 CREAM = (252, 239, 203)   # #FCEFCB — brand cream
 
@@ -157,6 +166,7 @@ def compose_strip(
     brightness: float = 1.0,
     contrast: float = 1.0,
     brand: str = "PHOTOBOOTH",
+    strip_color: str = "black",
 ) -> Image.Image:
     """Apply adjustments + the chosen filter to each photo, then lay
     them out as either a single-column strip or a 2-column grid, on a
@@ -196,7 +206,7 @@ def compose_strip(
     strip_w = columns * cell_w + 2 * OUTER_BORDER + (columns - 1) * GAP
     strip_h = OUTER_BORDER + rows * cell_h + rows * GAP + FOOTER_H
 
-    canvas = Image.new("RGB", (strip_w, strip_h), FRAME_BG)
+    canvas = Image.new("RGB", (strip_w, strip_h), STRIP_COLORS[strip_color])
 
     for i, img in enumerate(processed):
         row, col = divmod(i, columns)

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Wordmark from "./Wordmark";
+import StripMockup from "./StripMockup";
 
 export interface Adjustments {
   invert: boolean;
@@ -25,7 +26,6 @@ export default function ReviewShots({
   const contrast = 1;
 
   const cssFilter = `invert(${invert ? 1 : 0}) brightness(${brightness}) contrast(${contrast})`;
-  const columns = photos.length > 4 ? 2 : 1;
 
   return (
     <div className="relative h-screen overflow-hidden bg-cream px-8 py-10">
@@ -39,43 +39,12 @@ export default function ReviewShots({
             <h2 className="font-display text-3xl font-black text-red">review your shots</h2>
           </div>
 
-          <div className="overflow-hidden rounded-3xl border-[14px] border-black bg-frame">
-          <div
-            className="grid gap-[3px] p-[3px]"
-            style={{ gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`, width: columns === 1 ? 220 : 380 }}
-          >
-            {photos.map((p, i) => (
-              <div key={i} className="relative">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={p}
-                  alt={`Shot ${i + 1}`}
-                  className="aspect-[4/3] w-full object-cover"
-                  style={{ filter: cssFilter }}
-                />
-                <button
-                  type="button"
-                  aria-label={`Retake shot ${i + 1}`}
-                  onClick={() => onRetake?.(i)}
-                  className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full border-2 border-cream bg-red text-cream shadow-md transition hover:scale-105"
-                >
-                  <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current" aria-hidden="true">
-                    <path d="M12 6a6 6 0 0 1 5.82 4.18h1.9A8 8 0 0 0 4.2 9.2l1.4 1.4A6 6 0 0 1 12 6Zm0 12a6 6 0 0 1-5.82-4.18H4.28A8 8 0 0 0 19.8 14.8l-1.4-1.4A6 6 0 0 1 12 18Zm-1.5-5.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Zm1.5-7a8 8 0 0 1 8 8h-2a6 6 0 0 0-6-6v-2Z" />
-                  </svg>
-                </button>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center justify-between px-4 py-3">
-            <div>
-              <p className="font-display text-base font-black text-red">photobooth</p>
-              <p className="text-[11px] text-cream/70">by knurlpot</p>
-            </div>
-            <span className="text-[11px] text-cream/50">
-              {new Date().toLocaleDateString()}
-            </span>
-          </div>
-        </div>
+          <StripMockup
+            photos={photos}
+            filter={cssFilter}
+            width={photos.length > 4 ? 380 : 220}
+            onRetake={onRetake}
+          />
 
           <div className="flex items-center justify-center self-center">
             <button

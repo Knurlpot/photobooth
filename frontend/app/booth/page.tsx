@@ -10,7 +10,7 @@ import ModifyStrip from "@/components/ModifyStrip";
 import StripPreview from "@/components/StripPreview";
 import Wordmark from "@/components/Wordmark";
 import { buildStrip } from "@/lib/api";
-import { FilterId, LayoutId } from "@/lib/filters";
+import { FilterId, LayoutId, StripColor } from "@/lib/filters";
 
 type Step =
   | "count"
@@ -47,10 +47,26 @@ export default function BoothPage() {
     setAdjustments({ invert: false, brightness: 1, contrast: 1 });
   }
 
-  async function handleDevelop(filter: FilterId, layout: LayoutId, finalAdjustments: Adjustments) {
+  async function handleDevelop(
+    photoOrder: string[],
+    filter: FilterId,
+    layout: LayoutId,
+    finalAdjustments: Adjustments,
+    mirrored: boolean,
+    stripColor: StripColor
+  ) {
     setStep("processing");
     try {
-      const url = await buildStrip(photos, filter, layout, finalAdjustments, "png");
+      setPhotos(photoOrder);
+      const url = await buildStrip(
+        photoOrder,
+        filter,
+        layout,
+        finalAdjustments,
+        "png",
+        mirrored,
+        stripColor
+      );
       setResultUrl(url);
       setStep("result");
     } catch (err) {
@@ -140,7 +156,15 @@ export default function BoothPage() {
   }
 
   if (step === "modify") {
-    return <ModifyStrip photos={photos} adjustments={adjustments} onDevelop={handleDevelop} onBack={handleBack} />;
+    return (
+      <ModifyStrip
+        photos={photos}
+        adjustments={adjustments}
+        onDevelop={handleDevelop}
+        onPhotosChange={setPhotos}
+        onBack={handleBack}
+      />
+    );
   }
 
   if (step === "processing") {

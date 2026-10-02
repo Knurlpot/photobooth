@@ -24,6 +24,8 @@ export default function Camera({
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const flashTimeoutRef = useRef<number | null>(null);
+  const completionTimeoutRef = useRef<number | null>(null);
 
   const [photos, setPhotos] = useState<string[]>(initialPhotos);
   const [cameraError, setCameraError] = useState<string | null>(null);
@@ -81,42 +83,60 @@ export default function Camera({
   useEffect(() => {
     if (mode !== "camera" || !ready || cameraError) return;
 
-    if (retakeIndex !== null && retakeIndex !== undefined) {
-      const tick = setTimeout(() => {
-        if (secondsLeft <= 1) {
-          const shot = capture();
-          setFlash(true);
-          setTimeout(() => setFlash(false), 150);
-          if (shot) onComplete([shot]);
+    if ((retakeIndex === null || retakeIndex === undefined) && photos.length >= count) {
+      completionTimeoutRef.current = window.setTimeout(() => onComplete(photos), 180);
+      return () => {
+        if (completionTimeoutRef.current !== null) {
+          window.clearTimeout(completionTimeoutRef.current);
+        }
+      };
+    }
+
+    if (secondsLeft === 0) {
+      const tick = window.setTimeout(() => {
+        const shot = capture();
+        if (!shot) {
+          setSecondsLeft(timerSeconds);
           return;
         }
 
-        setSecondsLeft((s) => s - 1);
-      }, 1000);
-
-      return () => clearTimeout(tick);
-    }
-
-    if (photos.length >= count) {
-      onComplete(photos);
-      return;
-    }
-
-    const tick = setTimeout(() => {
-      if (secondsLeft <= 1) {
-        const shot = capture();
         setFlash(true);
-        setTimeout(() => setFlash(false), 150);
-        if (shot) setPhotos((prev) => [...prev, shot]);
+        if (flashTimeoutRef.current !== null) {
+          window.clearTimeout(flashTimeoutRef.current);
+        }
+        flashTimeoutRef.current = window.setTimeout(() => setFlash(false), 180);
+
+        if (retakeIndex !== null && retakeIndex !== undefined) {
+          completionTimeoutRef.current = window.setTimeout(() => onComplete([shot]), 220);
+          return;
+        }
+
+        setPhotos((previous) => [...previous, shot]);
         setSecondsLeft(timerSeconds);
-      } else {
-        setSecondsLeft((s) => s - 1);
-      }
+      }, 100);
+
+      return () => window.clearTimeout(tick);
+    }
+
+    const tick = window.setTimeout(() => {
+      setSecondsLeft((seconds) => Math.max(0, seconds - 1));
     }, 1000);
 
-    return () => clearTimeout(tick);
+    return () => window.clearTimeout(tick);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mode, ready, cameraError, photos.length, count, secondsLeft, timerSeconds, retakeIndex, onComplete]);
+
+  useEffect(
+    () => () => {
+      if (flashTimeoutRef.current !== null) {
+        window.clearTimeout(flashTimeoutRef.current);
+      }
+      if (completionTimeoutRef.current !== null) {
+        window.clearTimeout(completionTimeoutRef.current);
+      }
+    },
+    []
+  );
 
   // --- upload mode ---
   function handleFiles(e: React.ChangeEvent<HTMLInputElement>) {
@@ -189,7 +209,12 @@ export default function Camera({
                   muted
                   className="h-full w-full scale-x-[-1] object-cover"
                 />
-                {flash && <div className="absolute inset-0 bg-white" />}
+                <div
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute inset-0 bg-white transition-opacity duration-100 ${
+                    flash ? "opacity-90" : "opacity-0"
+                  }`}
+                />
                 {!ready && (
                   <div className="absolute inset-0 flex items-center justify-center text-sm text-cream/70">
                     Waking up the camera&hellip;

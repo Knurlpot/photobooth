@@ -6,7 +6,7 @@ from fastapi import APIRouter, File, Form, HTTPException, UploadFile
 from fastapi.responses import Response
 from PIL import Image
 
-from services.image_processing import FILTERS, compose_strip, image_to_bytes
+from services.image_processing import FILTERS, STRIP_COLORS, compose_strip, image_to_bytes
 
 router = APIRouter(prefix="/api", tags=["strip"])
 
@@ -34,6 +34,7 @@ async def build_strip(
     contrast: float = Form(1.0),
     format: str = Form("png"),
     brand: str = Form("PHOTOBOOTH"),
+    strip_color: str = Form("black"),
 ):
     if len(photos) not in ALLOWED_COUNTS:
         raise HTTPException(400, f"Strip must contain one of {sorted(ALLOWED_COUNTS)} photos, got {len(photos)}")
@@ -46,6 +47,9 @@ async def build_strip(
 
     if format.lower() not in ("png", "jpg", "jpeg"):
         raise HTTPException(400, "format must be png, jpg, or jpeg")
+
+    if strip_color not in STRIP_COLORS:
+        raise HTTPException(400, f"Unknown strip color '{strip_color}'. Options: {sorted(STRIP_COLORS)}")
 
     if not (0.1 <= brightness <= 3.0) or not (0.1 <= contrast <= 3.0):
         raise HTTPException(400, "brightness/contrast must be between 0.1 and 3.0")
@@ -70,6 +74,7 @@ async def build_strip(
         brightness=brightness,
         contrast=contrast,
         brand=brand or "PHOTOBOOTH",
+        strip_color=strip_color,
     )
     out_bytes = image_to_bytes(strip, fmt=format)
 

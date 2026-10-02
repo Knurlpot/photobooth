@@ -42,3 +42,16 @@ export const LAYOUT_PRESETS: LayoutPreset[] = [
   { id: "strip", label: "Strip", columns: 1 },
   { id: "grid", label: "Grid", columns: 2 },
 ];
+
+export const STRIP_COLORS = [
+  { id: "black", label: "Black", hex: "#000000" },
+  { id: "white", label: "White", hex: "#FFFFFF" },
+  { id: "red", label: "Red", hex: "#E5342A" },
+  { id: "orange", label: "Orange", hex: "#F28C28" },
+  { id: "yellow", label: "Yellow", hex: "#F4D03F" },
+  { id: "blue", label: "Blue", hex: "#2878D0" },
+  { id: "violet", label: "Violet", hex: "#7B3FB2" },
+  { id: "pink", label: "Pink", hex: "#E86A9A" },
+] as const;
+
+export type StripColor = (typeof STRIP_COLORS)[number]["id"];

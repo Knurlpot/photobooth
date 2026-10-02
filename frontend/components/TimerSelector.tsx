@@ -29,7 +29,7 @@ export default function TimerSelector({
               onClick={() => onChoose(s)}
               className="card-red flex h-32 w-32 md:h-40 md:w-40 items-center justify-center transition-transform hover:-translate-y-2"
             >
-              <span className="font-display text-5xl md:text-6xl font-black">{s}s</span>
+              <span className="font-display text-5xl md:text-6xl font-black">{s}S</span>
             </button>
           ))}
         </div>
