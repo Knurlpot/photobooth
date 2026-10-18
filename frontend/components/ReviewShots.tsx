@@ -14,11 +14,13 @@ export default function ReviewShots({
   photos,
   onDone,
   onRetake,
+  onPhotosChange,
   onBack,
 }: {
   photos: string[];
   onDone: (adjustments: Adjustments) => void;
   onRetake?: (index: number) => void;
+  onPhotosChange: (photos: string[]) => void;
   onBack?: () => void;
 }) {
   const [invert, setInvert] = useState(false);
@@ -37,6 +39,7 @@ export default function ReviewShots({
         <div className="flex items-center justify-center gap-14">
           <div className="flex flex-col items-start gap-5">
             <h2 className="font-display text-3xl font-black text-red">review your shots</h2>
+            <p className="text-sm text-ink/70">drag photo to swap places</p>
           </div>
 
           <StripMockup
@@ -44,6 +47,11 @@ export default function ReviewShots({
             filter={cssFilter}
             width={photos.length > 4 ? 380 : 220}
             onRetake={onRetake}
+            onSwap={(from, to) => {
+              const nextPhotos = [...photos];
+              [nextPhotos[from], nextPhotos[to]] = [nextPhotos[to], nextPhotos[from]];
+              onPhotosChange(nextPhotos);
+            }}
           />
 
           <div className="flex items-center justify-center self-center">

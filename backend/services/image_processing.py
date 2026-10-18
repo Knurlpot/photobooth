@@ -124,7 +124,7 @@ FOOTER_H = 180            # bottom footer band (brand + timestamp)
 STRIP_COLORS = {
     "black": (0, 0, 0),
     "white": (255, 255, 255),
-    "red": (229, 52, 42),
+    "maroon": (128, 0, 0),
     "orange": (242, 140, 40),
     "yellow": (244, 208, 63),
     "blue": (40, 120, 208),
@@ -221,11 +221,14 @@ def compose_strip(
     sub_font = _load_font(28, bold=False)
     ts = datetime.now().strftime("%b %d, %Y")
 
-    draw.text((OUTER_BORDER + 8, footer_top + 24), brand.lower(), font=brand_font, fill=RED)
-    draw.text((OUTER_BORDER + 8, footer_top + 112), "by knurlpot", font=sub_font, fill=CREAM)
+    brand_color = "#FFFFFF" if strip_color == "maroon" else RED
+    byline_color = "#000000" if strip_color == "white" else "#FFFFFF" if strip_color == "maroon" else CREAM
+    date_color = byline_color
+    draw.text((OUTER_BORDER + 8, footer_top + 24), brand.lower(), font=brand_font, fill=brand_color)
+    draw.text((OUTER_BORDER + 8, footer_top + 112), "by knurlpot", font=sub_font, fill=byline_color)
 
     date_w = draw.textlength(ts, font=sub_font)
-    draw.text((strip_w - OUTER_BORDER - 8 - date_w, footer_top + 112), ts, font=sub_font, fill=CREAM)
+    draw.text((strip_w - OUTER_BORDER - 8 - date_w, footer_top + 112), ts, font=sub_font, fill=date_color)
 
     return canvas
 

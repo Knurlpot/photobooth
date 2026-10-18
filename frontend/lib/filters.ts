@@ -46,7 +46,7 @@ export const LAYOUT_PRESETS: LayoutPreset[] = [
 export const STRIP_COLORS = [
   { id: "black", label: "Black", hex: "#000000" },
   { id: "white", label: "White", hex: "#FFFFFF" },
-  { id: "red", label: "Red", hex: "#E5342A" },
+  { id: "maroon", label: "Maroon", hex: "#800000" },
   { id: "orange", label: "Orange", hex: "#F28C28" },
   { id: "yellow", label: "Yellow", hex: "#F4D03F" },
   { id: "blue", label: "Blue", hex: "#2878D0" },

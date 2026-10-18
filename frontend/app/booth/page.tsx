@@ -142,6 +142,7 @@ export default function BoothPage() {
     return (
       <ReviewShots
         photos={photos}
+        onPhotosChange={setPhotos}
         onRetake={(index) => {
           setRetakeIndex(index);
           setStep("capture");
