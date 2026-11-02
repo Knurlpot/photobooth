@@ -1,5 +1,7 @@
 # Photobooth (Side Quest)
 
+idk na
+
 A photobooth web app: pick a strip length (3/4/6/8), take your shots from the
 webcam (or upload), choose a filter *after* capturing, and download the
 finished strip as PNG, JPG, or JPEG.
