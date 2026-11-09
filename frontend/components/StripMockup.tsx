@@ -106,8 +106,7 @@ export default function StripMockup({
         style={{ backgroundColor: color }}
       >
         <div className="text-left">
-          <p className={`font-display text-base font-black ${stripColor === "maroon" ? "text-white" : "text-red"}`}>photobooth</p>
-          <p className={`text-[11px] ${stripColor === "white" ? "text-black" : stripColor === "maroon" ? "text-white" : "text-cream/70"}`}>by knurlpot</p>
+          <p className={`font-display text-base font-black ${stripColor === "maroon" ? "text-white" : "text-red"}`}>PB&amp;K</p>
         </div>
         <span className={`text-[11px] ${stripColor === "white" ? "text-black" : stripColor === "maroon" ? "text-white" : "text-cream/50"}`}>
           {new Date().toLocaleDateString()}

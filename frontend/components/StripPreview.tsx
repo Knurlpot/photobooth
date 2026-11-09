@@ -21,7 +21,7 @@ export default function StripPreview({
     if (ext === "png") {
       const a = document.createElement("a");
       a.href = resultUrl;
-      a.download = "photobooth-strip.png";
+      a.download = "pb-and-k-strip.png";
       a.click();
       return;
     }
@@ -42,7 +42,7 @@ export default function StripPreview({
           const url = URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = `photobooth-strip.${ext}`;
+          a.download = `pb-and-k-strip.${ext}`;
           a.click();
           URL.revokeObjectURL(url);
         },
@@ -54,16 +54,16 @@ export default function StripPreview({
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-cream px-8 py-10">
+    <div className="safe-area-page flex min-h-dvh flex-col bg-cream px-6 py-8 sm:px-10 sm:py-10">
       <Wordmark size="sm" />
 
-      <div className="flex flex-1 items-center justify-center gap-16">
+      <div className="flex flex-1 flex-col items-center justify-center gap-8 pt-10 md:flex-row md:gap-16 md:pt-0">
         <div className="flex flex-col items-center gap-4">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={resultUrl}
             alt="Your photobooth strip"
-            className="max-h-[65vh] rounded-2xl"
+            className="max-h-[55vh] max-w-[85vw] rounded-2xl sm:max-h-[65vh]"
           />
           <canvas ref={canvasRef} className="hidden" />
 
@@ -87,7 +87,7 @@ export default function StripPreview({
           </button>
         </div>
 
-        <h2 className="font-display text-5xl font-black leading-[0.95] text-red sm:text-6xl">
+        <h2 className="text-center font-display text-5xl font-black leading-[0.95] text-red sm:text-6xl md:text-left">
           strip
           <br />
           is

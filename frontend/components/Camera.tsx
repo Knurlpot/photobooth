@@ -156,11 +156,11 @@ export default function Camera({
 
   if (mode === "upload") {
     return (
-      <div className="relative flex min-h-screen items-center justify-center bg-cream">
-        <div className="absolute left-8 top-10">
+      <div className="safe-area-page relative flex min-h-dvh items-center justify-center bg-cream px-6 py-8 sm:px-10">
+        <div className="absolute left-6 top-8 sm:left-10 sm:top-10">
           <Wordmark size="sm" onBack={onBack} />
         </div>
-        <div className="flex w-full max-w-5xl flex-col items-center justify-center gap-6 px-12 text-center">
+        <div className="flex w-full max-w-5xl flex-col items-center justify-center gap-6 px-0 pt-20 text-center sm:px-6 md:pt-0">
           <h2 className="font-display text-3xl font-black text-red sm:text-4xl">
             upload {count} photos
           </h2>
@@ -184,15 +184,15 @@ export default function Camera({
   }
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center bg-cream">
-      <div className="absolute left-8 top-10">
+    <div className="safe-area-page relative flex min-h-dvh items-center justify-center bg-cream px-6 py-8 sm:px-10">
+      <div className="absolute left-6 top-8 sm:left-10 sm:top-10">
         <Wordmark size="sm" onBack={onBack} />
       </div>
 
-      <div className="flex w-full max-w-5xl flex-col items-center justify-center gap-6 px-12 text-center">
+      <div className="flex w-full max-w-5xl flex-col items-center justify-center gap-6 px-0 pt-20 text-center sm:px-6 md:pt-0">
         {!cameraError ? (
           <>
-            <div className="flex items-center gap-10">
+            <div className="flex w-full flex-col items-center gap-5 sm:gap-8 md:flex-row md:justify-center md:gap-10">
               <div className="flex flex-col items-center">
                 <span className="font-display text-7xl font-black text-red sm:text-8xl">
                   {secondsLeft}
@@ -201,7 +201,7 @@ export default function Camera({
                   {secondsLeft === 1 ? "second" : "seconds"}
                 </span>
               </div>
-              <div className="relative aspect-[4/3] w-full max-w-md overflow-hidden rounded-2xl bg-frame">
+              <div className="relative aspect-[4/3] w-full max-w-md overflow-hidden rounded-2xl bg-frame shadow-lg">
                 <video
                   ref={videoRef}
                   autoPlay
@@ -221,7 +221,7 @@ export default function Camera({
                   </div>
                 )}
               </div>
-              <span className="font-display text-3xl font-black leading-tight text-red">
+              <span className="hidden font-display text-3xl font-black leading-tight text-red md:block">
                 strike
                 <br />
                 your

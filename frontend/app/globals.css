@@ -5,11 +5,31 @@
 html,
 body {
   background-color: #fcefcb;
+  min-width: 320px;
 }
 
 body {
-  font-family: var(--font-body), sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   color: #2a2117;
+}
+
+.font-display {
+  font-family: Arial, Helvetica, sans-serif;
+  letter-spacing: -0.04em;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+@supports (padding: env(safe-area-inset-top)) {
+  .safe-area-page {
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+  }
 }
 
 .btn-red {

@@ -3,9 +3,8 @@ export default function Wordmark({ size = "md", onBack }: { size?: "lg" | "md" |
   return (
     <div>
       <h1 className={`font-display font-black leading-none text-red ${title}`}>
-        photobooth
+        PB&amp;K
       </h1>
-      <p className={`${size === "lg" ? "mt-3 text-lg sm:text-xl" : "mt-1 text-sm"} font-medium text-ink/70`}>by knurlpot</p>
       {onBack && (
         <button 
           onClick={onBack}

@@ -75,11 +75,11 @@ export default function ModifyStrip({
   }
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-cream px-8 py-10">
+    <div className="safe-area-page flex min-h-dvh flex-col overflow-y-auto bg-cream px-6 py-8 sm:px-10 sm:py-10">
       <Wordmark size="sm" onBack={onBack} />
 
-      <div className="flex min-h-0 flex-1 flex-wrap items-center justify-center gap-x-8 gap-y-4 text-center lg:flex-nowrap lg:gap-16">
-        <h2 className="font-display text-3xl font-black leading-none text-red">
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-6 pt-8 text-center lg:flex-row lg:gap-16 lg:pt-0">
+        <h2 className="font-display text-3xl font-black leading-none text-red sm:text-4xl">
           modify strip
         </h2>
 
@@ -92,24 +92,46 @@ export default function ModifyStrip({
           onSwap={swapPhotos}
         />
 
-        <div className="flex flex-col gap-6">
+        <div className="flex w-full max-w-sm flex-col gap-5 text-left">
           <div>
             <p className="font-display text-xl font-black text-red">filter</p>
-            <div className="mt-3 grid grid-cols-4 gap-3">
+            <div className="mt-3 grid grid-cols-4 gap-4">
               {FILTER_PRESETS.map((f) => (
                 <div key={f.id} className="flex flex-col items-center gap-2">
                   <button
                     onClick={() => setFilter(f.id)}
                     title={f.label}
-                    className={`h-8 w-8 rounded-full border-2 transition-transform hover:scale-110 ${
+                    className={`h-10 w-10 rounded-full border-2 transition-transform hover:scale-110 ${
                       filter === f.id ? "border-red scale-110" : "border-transparent"
                     }`}
                     style={{ backgroundColor: f.swatch }}
                   />
-                  <span className="text-[9px] font-bold uppercase tracking-wide text-ink/70">
+                  <span className="text-[10px] font-bold uppercase tracking-wide text-ink/70">
                     {f.label}
                   </span>
                 </div>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <p className="font-display text-xl font-black text-red">color of strip</p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              {STRIP_COLORS.map((color) => (
+                <button
+                  key={color.id}
+                  type="button"
+                  aria-label={color.label}
+                  aria-pressed={stripColor === color.id}
+                  title={color.label}
+                  onClick={() => setStripColor(color.id)}
+                    className={`h-10 w-10 rounded-full border-2 transition-transform hover:scale-110 ${
+                    stripColor === color.id
+                      ? "scale-110 border-red ring-2 ring-cream"
+                      : "border-transparent"
+                  }`}
+                  style={{ backgroundColor: color.hex }}
+                />
               ))}
             </div>
           </div>
@@ -125,46 +147,15 @@ export default function ModifyStrip({
                 : "border-red text-red hover:bg-red/10"
             }`}
           >
-            <svg
-              viewBox="0 0 24 24"
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
+            <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M12 3v18" strokeDasharray="2 2" />
               <path d="M10 6H5v12h5M14 6h5v12h-5" />
               <path d="m8 9 2-3-2-3M16 9l-2-3 2-3" />
             </svg>
           </button>
 
-          <div>
-            <p className="font-display text-xl font-black text-red">color of strip</p>
-            <div className="mt-3 flex flex-wrap gap-3">
-              {STRIP_COLORS.map((color) => (
-                <button
-                  key={color.id}
-                  type="button"
-                  aria-label={color.label}
-                  aria-pressed={stripColor === color.id}
-                  title={color.label}
-                  onClick={() => setStripColor(color.id)}
-                  className={`h-8 w-8 rounded-full border-2 transition-transform hover:scale-110 ${
-                    stripColor === color.id
-                      ? "scale-110 border-red ring-2 ring-cream"
-                      : "border-transparent"
-                  }`}
-                  style={{ backgroundColor: color.hex }}
-                />
-              ))}
-            </div>
-          </div>
-
           <div className="flex flex-col gap-4">
-            <div className="grid grid-cols-[7rem_9rem] items-center gap-3">
+            <div className="grid grid-cols-[6.5rem_1fr] items-center gap-3">
               <span className="text-left text-sm font-bold tracking-wide text-black">
                 BRIGHTNESS
               </span>
@@ -179,7 +170,7 @@ export default function ModifyStrip({
               />
             </div>
 
-            <div className="grid grid-cols-[7rem_9rem] items-center gap-3">
+            <div className="grid grid-cols-[6.5rem_1fr] items-center gap-3">
               <span className="text-left text-sm font-bold tracking-wide text-black">
                 CONTRAST
               </span>

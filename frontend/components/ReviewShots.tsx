@@ -30,22 +30,22 @@ export default function ReviewShots({
   const cssFilter = `invert(${invert ? 1 : 0}) brightness(${brightness}) contrast(${contrast})`;
 
   return (
-    <div className="relative h-screen overflow-hidden bg-cream px-8 py-10">
-      <div className="absolute left-8 top-10">
+    <div className="safe-area-page relative min-h-dvh overflow-y-auto bg-cream px-6 py-8 sm:px-10 sm:py-10">
+      <div className="absolute left-6 top-8 sm:left-10 sm:top-10">
         <Wordmark size="sm" onBack={onBack} />
       </div>
 
-      <div className="flex h-full items-center justify-center">
-        <div className="flex items-center justify-center gap-14">
-          <div className="flex flex-col items-start gap-5">
-            <h2 className="font-display text-3xl font-black text-red">review your shots</h2>
+      <div className="flex min-h-[calc(100dvh-5rem)] items-center justify-center pt-20 sm:pt-12">
+        <div className="flex w-full max-w-5xl flex-col items-center justify-center gap-8 md:flex-row md:gap-14">
+          <div className="flex flex-col items-center gap-2 text-center md:items-start md:text-left">
+            <h2 className="font-display text-3xl font-black text-red sm:text-4xl">review your shots</h2>
             <p className="text-sm text-ink/70">drag photo to swap places</p>
           </div>
 
           <StripMockup
             photos={photos}
             filter={cssFilter}
-            width={photos.length > 4 ? 380 : 220}
+            width={photos.length > 4 ? 340 : 220}
             onRetake={onRetake}
             onSwap={(from, to) => {
               const nextPhotos = [...photos];
@@ -59,7 +59,7 @@ export default function ReviewShots({
               type="button"
               aria-label="Continue"
               onClick={() => onDone({ invert, brightness, contrast })}
-              className="group flex items-center"
+              className="group flex items-center p-2"
             >
               <span className="h-[5px] w-20 rounded-full bg-red transition-all group-hover:w-28 md:w-32 md:group-hover:w-48 -mr-3" />
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" className="text-red">
